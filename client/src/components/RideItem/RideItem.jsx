@@ -1,6 +1,11 @@
 // React
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+<<<<<<< HEAD
+import { useHistory } from 'react-router-dom';
+
+=======
+>>>>>>> parent of 6b42564 (changed to onlcick instead of hrefs)
 
 // Contexts & Utils
 import UserContext from '../../contexts/UserContext';

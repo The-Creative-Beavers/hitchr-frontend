@@ -13,6 +13,7 @@ import Register from './views/Auth/Auth';
 import RegisterModel from './views/Auth/AuthModel';
 import User from './views/User/User';
 import CreateRide from './views/CreateRide/CreateRide';
+import Nav from './components/Nav/Nav';
 
 // Context
 import UserContext from './contexts/UserContext';
@@ -23,14 +24,15 @@ import './App.css';
 // Dummy Data
 import userInfo from './dummyData/userInfo';
 import emptyUser from './dummyData/emptyUser';
-import Nav from './components/Nav/Nav';
 
 const App = () => {
-  const [user, setUser] = useState(process.env.NODE_ENV === 'development' ? camelcaseKeys(userInfo, { deep: true }) : emptyUser());
+  const [user, setUser] = useState(emptyUser());
 
   const logout = () => {
     setUser(emptyUser());
   };
+
+  console.log(user);
 
   return (
     <div id="App">
@@ -44,10 +46,10 @@ const App = () => {
           <UserContext.Provider value={user}>
             <Nav logoutCallback={logout} />
             <Route path="/login">
-              <Login loginCallback={LoginModel} />
+              <Login loginCallback={LoginModel(setUser)} />
             </Route>
             <Route path="/register">
-              <Register registerCallback={RegisterModel} />
+              <Register registerCallback={RegisterModel(setUser)} />
             </Route>
             {
               !user || !user.sessionId

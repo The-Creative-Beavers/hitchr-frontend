@@ -1,11 +1,23 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 
 import './Login.css';
 
 const Login = (props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState(null);
+  const history = useHistory();
+
+  const login = () => {
+    props.loginCallback(history, username, password)
+      .then((response) => {
+        if (response.message) {
+          setMessage(response.message);
+        }
+      });
+  };
 
   return (
     <div id="login-panel">
@@ -19,7 +31,14 @@ const Login = (props) => {
           Password
           <input type="password" name="password" onChange={(e) => setPassword(e.target.value)} />
         </label>
-        <button type="button" onClick={() => props.loginCallback(username, password)}>Login</button>
+        {message !== null
+          ? (
+            <p>
+              {message}
+            </p>
+          )
+          : null}
+        <button type="button" onClick={login}>Login</button>
       </form>
     </div>
   );
